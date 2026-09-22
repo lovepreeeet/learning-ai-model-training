@@ -8,9 +8,8 @@ const trainingData = [
     { hours: 6, sleep: 5, score: 70 },
 ];
 
-function predict(x, weight, bias) {
-
-    return (weight * x) + bias;
+function predict(hours, sleep, hoursWeight, sleepWeight, bias) {
+    return (hours * hoursWeight) + (sleep * sleepWeight) + bias;
 }
 
 function calculateLoss(actual, prediction) {
@@ -33,32 +32,35 @@ function calculateBias(bias, gradient) {
     return bias - (LEARNING_RATE * gradient);
 }
 
-function trainExamples(examples, weight = 0, bias = 0) {
+function trainExamples(examples, hoursWeight = 0, sleepWeight = 0, bias = 0) {
     let loss = [];
-    examples.forEach(({ hours, score: actual }) => {
-        let prediction = predict(hours, weight, bias);
+    examples.forEach(({ hours, sleep, score: actual }) => {
+        let prediction = predict(hours, sleep, hoursWeight, sleepWeight, bias);
         loss.push(calculateLoss(actual, prediction));
-        let weightGradient = calculateWeightGradient(hours, actual, prediction);
-        weight = calculateWeight(weight, weightGradient);
 
+        let hoursWeightGradient = calculateWeightGradient(hours, actual, prediction);
+        let sleepWeightGradient = calculateWeightGradient(sleep, actual, prediction);
         let biasGradient = calculateBiasGradient(actual, prediction);
+
+        hoursWeight = calculateWeight(hoursWeight, hoursWeightGradient);
+        sleepWeight = calculateWeight(sleepWeight, sleepWeightGradient);
         bias = calculateBias(bias, biasGradient);
     });
-    return [weight, bias, loss.reduce((previousValue, current) => previousValue + current, 0) / loss.length]
+    return [hoursWeight, sleepWeight, bias, loss.reduce((previousValue, current) => previousValue + current, 0) / loss.length]
 }
 
 function train(dataSet) {
     let i = 0;
-    let weight = 0;
+    let hoursWeight = 0;
+    let sleepWeight = 0;
     let bias = 0;
-    while (i < 1000) {
-        [weight, bias, loss] = trainExamples(dataSet, weight, bias);
+    while (i < 10000) {
+        [hoursWeight, sleepWeight, bias, loss] = trainExamples(dataSet, hoursWeight, sleepWeight, bias);
         i++;
     }
-    console.log(loss);
-    return [weight, bias];
+    return [hoursWeight, sleepWeight, bias];
 }
 
-let [finalWeight, finalBias] = train(trainingData);
-// console.log('finalWeight, finalBias: ', finalWeight, finalBias);
-console.log(Math.round(predict(2, finalWeight, finalBias)))
+let [hoursWeightFinal, sleepWeightFinal, finalBias] = train(trainingData);
+console.log('hoursWeightFinal, sleepWeightFinal, finalBias: ', hoursWeightFinal, sleepWeightFinal, finalBias);
+console.log(Math.round(predict(2, 5, hoursWeightFinal, sleepWeightFinal, finalBias)))

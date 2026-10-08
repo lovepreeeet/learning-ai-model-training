@@ -5,3 +5,5 @@ train3.0-with-bias.js
 multi-input-train.js
 classification.js
 neuron-network.js
+neuron-network2.0.js
+/dino

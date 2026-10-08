@@ -1,0 +1,77 @@
+prediction -> (weight * x) + bias
+
+
+loss = (actual - prediction) ** 2 -> why square -> 
+loss measures how wrong the prediction is (it gives a numerical value to call as error)
+
+gradient -> how much does the loss change if I change the weight
+
+
+
+y = prediction
+m = weight
+x = input (fixed value at a time, so is constant)
+c = just a constants (bias)
+l = loss
+h = actual
+
+so prediction (y) = mx + c
+l = h - y;
+
+we need to calculate how much (m) changes, that changes l but how much??
+so we are finding -> how much (l) is changed when (m) is changed
+
+to find that (direction and magnitude), we use derivation
+(derivative tells us how much one thing changes when another thing changes)
+
+so we need to find
+dl/dm (dLoss / dWeight) which m is not directly affecting l, its affecting like this
+
+m -> y -> l (weight affects prediction, prediction affects loss)
+so chain rule applies
+dl/dm => (dl/dy) * (dy/dm)
+
+so
+dl/dy => h - y -> -1 (h is constant, -y -> -1);
+dy/dm => mx + c -> x (c is constant, mx's derivation is x);
+
+so combining becomes
+dl/dm => (-1) * (x) -> -x;
+so for this formula for gradient becomes -x
+
+but as we were having loss in square
+why squared -> so 2 errors doesn't cancel out the whole error
+
+so
+l = (h - y) ** 2
+so we need to find (dl/dm)
+dl/dy => (h - y ) ** 2 => which is   -2 (h - y)
+dy/dm => x
+so dl/dm becomes => (-2) * x * (h - y);
+
+
+now actual new m (new weight) -> (mOld - (LEARNING_RATE * gradient))
+so dl/dm for l**2 
+if gradient is negative, weight should be increasted, and vice versa
+and LEARNING_RATE told us, how much to increase the weight using gradient
+so we repeat things
+
+
+so is the formula for biasGradient and biasCalculation
+
+
+
+
+// used afterwards classification.js
+now sigmoid
+before sigmoid -> prediction can be any number
+but for classification and afterwards
+we need only number between 0 and 1
+0 < SIGMOID_NUMBER < 1
+
+σ(z)=1+e−z1​ formula (in javascript -> 1 / (1 + Math.exp(-x)););
+
+
+
+
+

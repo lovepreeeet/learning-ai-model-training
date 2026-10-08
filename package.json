@@ -1,0 +1,20 @@
+{
+  "name": "models",
+  "version": "1.0.0",
+  "description": "<!-- progression --> Your current model        ↓ multiple-input linear regression        ↓ classification        ↓ neural network        ↓ train neural network on dinosaur-game data        ↓ model plays the game        ↓ reinforcement learning",
+  "homepage": "https://github.com/lovepreeeet/learning-ai-model-training#readme",
+  "bugs": {
+    "url": "https://github.com/lovepreeeet/learning-ai-model-training/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lovepreeeet/learning-ai-model-training.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

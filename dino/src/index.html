@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Dinosaur Game</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+
+    #game {
+      position: relative;
+      width: min(800px, 96vw);
+      height: 300px;
+      overflow: hidden;
+      background: white;
+      border-bottom: 3px solid #222;
+    }
+
+    #dinosaur {
+      position: absolute;
+      left: 80px;
+      bottom: 0;
+      width: 40px;
+      height: 50px;
+      background: #222;
+    }
+
+    #obstacle {
+      position: absolute;
+      left: 800px;
+      bottom: 0;
+      width: 30px;
+      height: 50px;
+      background: #d33;
+    }
+
+    #message {
+      position: absolute;
+      top: 24px;
+      width: 100%;
+      text-align: center;
+      color: #333;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="game">
+    <div id="message">Press Space to jump</div>
+    <div id="dinosaur"></div>
+    <div id="obstacle"></div>
+  </div>
+  
+  <script type="module" src="./script.js"></script>
+</body>
+
+</html>

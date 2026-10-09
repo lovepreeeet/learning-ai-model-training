@@ -2,6 +2,8 @@ const game = document.querySelector("#game");
 const dinosaur = document.querySelector("#dinosaur");
 const obstacle = document.querySelector("#obstacle");
 const message = document.querySelector("#message");
+const scoreDisplay = document.querySelector("#score");
+const startButton = document.querySelector("#start-button");
 
 const groundY = 0;
 const jumpStrength = 15;
@@ -12,7 +14,9 @@ let dinosaurY = groundY;
 let velocityY = 0;
 
 let isJumping = false;
-let gameOver = false;
+// The game waits for the Start button, so it begins as "over"
+let gameOver = true;
+let hasStarted = false;
 
 let obstacleX = game.clientWidth;
 
@@ -25,6 +29,10 @@ const minObstacleHeight = 20;
 const maxObstacleHeight = 90;
 let obstacleHeight = 50;
 
+// Obstacles cleared in the current play, and every jump made in it
+let score = 0;
+let playObstacles = [];
+
 
 // -------------------------
 // DATASET
@@ -36,6 +44,19 @@ function randomizeObstacleHeight() {
         Math.random() * (maxObstacleHeight - minObstacleHeight)
     );
     obstacle.style.height = obstacleHeight + "px";
+}
+
+// Distance from dino's right edge to obstacle's left edge,
+// measured the same way as jumpDistance in the dataset
+export function getObstacleDistance() {
+    return Math.round(
+        obstacle.getBoundingClientRect().left -
+        dinosaur.getBoundingClientRect().right
+    );
+}
+
+export function getObstacleHeight() {
+    return obstacleHeight;
 }
 
 // Sends [distanceFromObstacle, height, passed] to dino-server.js.
@@ -53,12 +74,42 @@ function recordSample(passed) {
 
     jumpDistance = null;
 
+    playObstacles.push({
+        distance: sample[0],
+        height: sample[1],
+        passed: sample[2]
+    });
+
     console.log("sample: ", sample);
 
     fetch("http://localhost:3000/record", {
         method: "POST",
         body: JSON.stringify(sample)
     }).catch((error) => console.error("Failed to record: ", error));
+}
+
+// -------------------------
+// SCORE
+// -------------------------
+
+function updateScoreDisplay() {
+    scoreDisplay.textContent = "Score: " + score;
+}
+
+// Sends the finished play to dino-server.js (static/scores.json)
+function recordScore() {
+    const play = {
+        score,
+        playedAt: new Date().toISOString(),
+        obstacles: playObstacles
+    };
+
+    console.log("play: ", play);
+
+    fetch("http://localhost:3000/score", {
+        method: "POST",
+        body: JSON.stringify(play)
+    }).catch((error) => console.error("Failed to record score: ", error));
 }
 
 let animationId;
@@ -76,10 +127,7 @@ export function jump() {
     velocityY = jumpStrength;
     isJumping = true;
 
-    // Distance from dino's right edge to obstacle's left edge
-    jumpDistance =
-        obstacle.getBoundingClientRect().left -
-        dinosaur.getBoundingClientRect().right;
+    jumpDistance = getObstacleDistance();
 }
 
 
@@ -94,7 +142,7 @@ document.addEventListener("keydown", (event) => {
         jump();
     }
 
-    if (event.code === "Enter" && gameOver) {
+    if (event.code === "Enter" && gameOver && hasStarted) {
         restartGame();
     }
 });
@@ -113,11 +161,17 @@ function restartGame() {
 
     isJumping = false;
     gameOver = false;
+    hasStarted = true;
+    startButton.disabled = true;
 
     obstacleX = game.clientWidth;
 
     passedObstacle = false;
     jumpDistance = null;
+
+    score = 0;
+    playObstacles = [];
+    updateScoreDisplay();
 
     randomizeObstacleHeight();
 
@@ -212,12 +266,16 @@ function gameLoop() {
 
         gameOver = true;
 
-        message.textContent =
-            "Game over — press Enter to restart";
-
         console.log("GAME OVER");
 
         recordSample(false);
+        recordScore();
+
+        message.textContent =
+            "Game over — score " + score + " — press Enter to restart";
+
+        startButton.textContent = "Restart game";
+        startButton.disabled = false;
 
         return;
     }
@@ -241,6 +299,9 @@ function gameLoop() {
         console.log('Jumped at distance: ', jumpDistance, 'px');
 
         recordSample(true);
+
+        score++;
+        updateScoreDisplay();
     }
 
 
@@ -253,6 +314,14 @@ function gameLoop() {
 }
 
 
-// Start game
+startButton.addEventListener("click", () => {
+    // Keep Space for jumping instead of re-clicking the button
+    startButton.blur();
+    restartGame();
+});
+
+
+// Wait for the Start button
+updateScoreDisplay();
 randomizeObstacleHeight();
-gameLoop();
+obstacle.style.left = obstacleX + "px";

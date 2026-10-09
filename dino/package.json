@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev:html": "vite",
-    "dev:server": "nodemon ./static/dino-server.js",
+    "dev:server": "nodemon --ignore static/dataset.json --ignore static/scores.json ./static/dino-server.js",
     "build": "vite build"
   },
   "dependencies": {

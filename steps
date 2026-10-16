@@ -7,3 +7,13 @@ classification.js
 neuron-network.js
 neuron-network2.0.js
 /dino
+learn differentiation and gradient function etc -> https://chatgpt.com/share/6ad0abf5-7d08-83ee-afaf-f5631dac66dd
+/reinforcement
+    1.0 -> just game rules etc
+    2.0 -> qTable
+    3.0 -> chooseAction (an agent to needs to ask which action should i choose, so we use chooseAction and it finds in qTable to find what action should we choose)
+    4.0 -> normal looop to update qTable values (known as qValue)
+    5.0 -> updating the loop by finding bestfuturevalue and using the actual formula for updating qValues; (discount factor and learning rate)
+    6.0 -> 100-500 epochs (episodes)
+    7.0 -> separating training from playing, just using qtable values (after trained) to play the game and see what states visited
+    8.0 -> exploration

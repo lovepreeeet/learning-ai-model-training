@@ -37,7 +37,7 @@ const move = (currentState, action) => {
     if (currentState === 0 && action === ACTIONS.LEFT) {
         return {
             nextState: currentState,
-            reward: 0,
+            reward: -1,
             done: false,
         }
     }
@@ -95,15 +95,25 @@ const chooseAction = (currentState) => {
 
 
 let i = 0;
-let initialState = 0;
+let currentState = 0;
 
-while (i < 10) {
-    let { action: actionChoosed } = chooseAction(initialState);
 
-    let moved = move(initialState, actionChoosed);
-    console.log('moved: ', moved);
-    if (moved.done) {
+while (true) {
+    var { action, value } = chooseAction(currentState);
+    console.log('action, value: ', action, value);
+
+    var { nextState, reward, done } = move(currentState, action);
+    console.log('nextState, reward, done: ', nextState, reward, done);
+
+    qTable[currentState][action] += reward;
+    console.log('qTable: ', qTable);
+
+    currentState = nextState;
+    console.log('currentState: ', currentState);
+    if (done) {
         break;
     }
     i++;
-};
+}
+
+    console.log('FINAL qTable: ', qTable);

@@ -16,4 +16,5 @@ learn differentiation and gradient function etc -> https://chatgpt.com/share/6ad
     5.0 -> updating the loop by finding bestfuturevalue and using the actual formula for updating qValues; (discount factor and learning rate)
     6.0 -> 100-500 epochs (episodes)
     7.0 -> separating training from playing, just using qtable values (after trained) to play the game and see what states visited
-    8.0 -> exploration
+    8.0 -> exploration (epsilon)
+    9.0 -> epsilon decaying

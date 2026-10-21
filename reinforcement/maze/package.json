@@ -1,0 +1,14 @@
+{
+  "name": "dino",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vite": "^8.3.4"
+  }
+}

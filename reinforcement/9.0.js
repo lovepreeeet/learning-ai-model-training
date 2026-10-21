@@ -24,6 +24,17 @@
 // when should we update epsilon
 // After each complete episode (one run of the maze)
 
+
+
+// we are going to learn reinformcent learning based on neural networks
+// because using qtable only, we can solve fix things for example
+// maze game with fixed walls but differnt start/end point every time, so now we can use reinforcement learning
+// but if maze game has different start/end point, and different walls, we'll have to use neural network based rinforcement learning
+// because states are not fixed
+
+
+
+
 let EPSILON = 1; // start value  
 const MIN_EPSILON = 0.01; // minimum 1%
 const EPSILON_DECAY = 0.995; // 99.5% // - controls how quickly epsilon decreases.

@@ -19,10 +19,31 @@ body {
     aspect-ratio: 1;
     background: #f5e9d0;
     position: relative;
+    font-size: 20px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.cell span {
+    opacity: 0;
+    visibility: hidden;
+    transition: 200ms ease-in-out;
+}
+
+.cell:hover span {
+    opacity: 1;
+    visibility: visible;
 }
 
 .wall {
     background: #2e3440;
+}
+.wall span {
+    color: white;
 }
 
 .end::after,

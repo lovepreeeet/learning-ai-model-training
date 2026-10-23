@@ -143,7 +143,7 @@ while (i < 1000) { // episodes
 
     let currentState = 0;
 
-    while (true) {
+    while (true) { // known as step
         var { action, value } = chooseAction(currentState);
 
         var { nextState, reward, done } = move(currentState, action);
